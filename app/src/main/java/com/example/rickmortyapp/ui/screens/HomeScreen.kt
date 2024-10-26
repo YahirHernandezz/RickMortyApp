@@ -50,15 +50,16 @@ fun HomeScreen(innerPadding: PaddingValues, navController: NavController){
     }
     LaunchedEffect(key1 = true) {
         scope.launch {
-            //llamada a la API
             try {
-                val BASE_URL = "https://rickandmortyapi.com/"
+                val BASE_URL = "https://rickandmortyapi.com/api/"
                 val characterService = Retrofit.Builder()
                     .baseUrl(BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build()
                     .create(CharacterService::class.java)
-                characters = characterService.getCharacters()
+
+                val response = characterService.getCharacters() //OBTENEMOS LA LISTA ApiResponse
+                characters = response.results //OBTENEMOS LA LISTA DE PERSONAJES
                 Log.i("HomeScreenResponse", characters.toString())
                 isLoading = false
             }

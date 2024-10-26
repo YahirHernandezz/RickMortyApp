@@ -19,6 +19,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.rickmortyapp.models.Character
+import com.example.rickmortyapp.models.Location
+import com.example.rickmortyapp.models.Origin
 import com.example.rickmortyapp.services.CharacterService
 import com.example.rickmortyapp.ui.theme.RickMortyAppTheme
 import kotlinx.coroutines.launch
@@ -36,19 +38,33 @@ fun CharacterDetailScreen(id:Int,innerPaddingValues: PaddingValues){
             id = 0,
             name = "",
             image = "",
-            status = ""
+            status = "",
+            created = "",
+            episode = emptyList(),
+            gender = "",
+            location = Location(name = "", url = ""),
+            origin = Origin(name = "", url = ""),
+            species = "",
+            type = "",
+            url = ""
         ))
     }
+
+    val BASE_URL = "https://rickandmortyapi.com/api/"
+    val productService = Retrofit.Builder()
+        .baseUrl(BASE_URL)
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
+        .create(CharacterService::class.java)
+
     LaunchedEffect(key1 = true) {
         scope.launch {
-            val BASE_URL = "https://rickandmortyapi.com/"
-            val productService = Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
-                .create(CharacterService::class.java)
             isLoading = true
-            character = productService.getCharactersById(id)
+            try {
+                character = productService.getCharactersById(id)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
             isLoading = false
         }
     }
@@ -69,6 +85,8 @@ fun CharacterDetailScreen(id:Int,innerPaddingValues: PaddingValues){
                 .fillMaxSize()
         ){
             Text(character.name)
+            Text(character.status)
+            Text(character.species)
         }
     }
 }
