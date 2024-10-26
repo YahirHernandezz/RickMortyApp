@@ -14,6 +14,6 @@ data class Character(
     val type: String,
     val url: String
 ){
-    val computedName get() = if(name.length > 11) "${name.substring(0,11)}..." else name
+    val computedName get() = if(name.length > 20) "${name.substring(0,20)}..." else name
 }
 

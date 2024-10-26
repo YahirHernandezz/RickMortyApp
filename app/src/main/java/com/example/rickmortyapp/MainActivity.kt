@@ -28,6 +28,7 @@ class MainActivity : ComponentActivity() {
             RickMortyAppTheme {
                 val navController = rememberNavController()
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+
                     NavHost(navController = navController, startDestination = "home"){
                         composable(route = "home"){
                             HomeScreen(innerPadding, navController)
